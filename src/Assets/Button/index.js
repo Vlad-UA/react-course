@@ -7,10 +7,10 @@ const isButtonDisabled = () => false;
 export const Button = () => {
   const customClassNames = cx({
     btn: true,
-    disabled: isButtonDisabled()
+    disabled: isButtonDisabled(),
   });
 
   return (
-    <button className={ customClassNames }>Click me!</button>
-  )
+    <button className={customClassNames} type="button">Click me!</button>
+  );
 };
