@@ -1,13 +1,5 @@
 import React from 'react';
-import { Header } from '../Components/Header';
 import { News } from '../Components/News';
+import data from './source';
 
-export const Home = () => {
-  return (
-    <>
-        <h1>Home</h1>
-        <Header />
-        <News />
-    </>
-  )
-};
+export const Home = () => <News source={data} />;
