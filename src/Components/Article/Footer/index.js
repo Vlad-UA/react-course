@@ -4,11 +4,15 @@ import { CommentsCounter } from '../../../Assets/CommentsCounter';
 import { LikesCounter } from '../../../Assets/LikesCounter';
 import { Share } from '../../../Assets/Share';
 
-export const Footer = () => (
-  <div className={styles.container}>
-    <span>15.07.2017</span>
-    <span><CommentsCounter /></span>
-    <span><LikesCounter /></span>
-    <span><Share /></span>
-  </div>
-);
+export const Footer = ({ likes, comments, published }) => {
+  const date = new Date(published);
+
+  return (
+    <div className={styles.container}>
+      <span>{`${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`}</span>
+      <span><CommentsCounter counts={comments} /></span>
+      <span><LikesCounter counts={likes} /></span>
+      <span><Share /></span>
+    </div>
+  );
+};

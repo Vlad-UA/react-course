@@ -1,8 +1,8 @@
 import React from 'react';
 
-export const Body = () => (
+export const Body = ({ description, title }) => (
   <>
-    <h1>American writer of bad cowboy stories arrived in</h1>
-    <p>Volunteering to help people in need combined with travelling to faraway places is a new </p>
+    <h1>{title}</h1>
+    <p>{description}</p>
   </>
 );

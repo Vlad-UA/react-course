@@ -1,9 +1,9 @@
 import React from 'react';
 import comment from './likes.png';
 
-export const LikesCounter = () => (
+export const LikesCounter = ({ counts }) => (
   <>
     <img src={comment} alt="likes" />
-    315
+    {counts}
   </>
 );
