@@ -1,33 +1,30 @@
 import React from 'react';
-import { Button } from '../../Assets/Button';
-
-const db = [
-    {
-        id: 'H23GF4F4',
-        title: 'Hot news 1'
-    },
-    {
-        id: 'H23GF4F1',
-        title: 'Hot news 2'
-    },
-    {
-        id: 'H23GF4F8',
-        title: 'Hot news 3'
-    }
-]
+import { Article } from '../Article';
+import styles from './styles.module.scss';
+import { useNews } from './useNews';
 
 export const News = () => {
-  const articles = db.map(({title, id}) => (
-    <li key={ id }>{title}</li>
+  const { posts } = useNews();
+
+  const articles = posts.map(({
+    title, description, created, likes, comments, poster, tags, objectId,
+  }) => (
+    <li key={objectId}>
+      <Article
+        title={title}
+        description={description}
+        published={Number(created)}
+        likes={likes}
+        comments={comments}
+        image={poster}
+        tags={tags.split(',')}
+      />
+    </li>
   ));
 
   return (
-    <>
-        <h2>News</h2>
-        <ul>
-          { articles }
-        </ul>
-        <Button />
-    </>
-  )
+    <ul className={styles.articles}>
+      {articles}
+    </ul>
+  );
 };
