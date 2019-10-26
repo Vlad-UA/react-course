@@ -1,7 +1,6 @@
 import React from 'react';
 import { News } from '../Components/News';
 import { Accordion } from '../Components/Accordion';
-import data from './source';
 
 const accordionData = [
   {
@@ -23,7 +22,7 @@ const accordionData = [
 
 export const Home = () => (
   <>
-    <News source={data} />
+    <News />
     <Accordion source={accordionData} />
   </>
 );

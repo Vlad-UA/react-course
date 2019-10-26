@@ -3,12 +3,12 @@ import { useState } from 'react';
 export const useCounter = (countsInitial) => {
   const [counts, setCount] = useState(countsInitial);
 
-  const changeCount = () => {
+  const increaseCount = () => {
     setCount((prevCounter) => prevCounter + 1);
   };
 
   return {
     counts,
-    changeCount,
+    increaseCount,
   };
 };

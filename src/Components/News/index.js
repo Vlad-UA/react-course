@@ -1,25 +1,30 @@
 import React from 'react';
 import { Article } from '../Article';
 import styles from './styles.module.scss';
+import { useNews } from './useNews';
 
-export const News = ({ source }) => (
-  <ul className={styles.articles}>
-    {
-      source.map(({
-        title, description, published, likes, comments, image, tags,
-      }) => (
-        <li key={title}>
-          <Article
-            title={title}
-            description={description}
-            published={published}
-            likes={likes}
-            comments={comments}
-            image={image}
-            tags={tags}
-          />
-        </li>
-      ))
-    }
-  </ul>
-);
+export const News = () => {
+  const { posts } = useNews();
+
+  const articles = posts.map(({
+    title, description, created, likes, comments, poster, tags, objectId,
+  }) => (
+    <li key={objectId}>
+      <Article
+        title={title}
+        description={description}
+        published={Number(created)}
+        likes={likes}
+        comments={comments}
+        image={poster}
+        tags={tags.split(',')}
+      />
+    </li>
+  ));
+
+  return (
+    <ul className={styles.articles}>
+      {articles}
+    </ul>
+  );
+};
