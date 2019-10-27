@@ -1,0 +1,19 @@
+.container {
+  background-color: white;
+  border-radius: 10px;
+
+  box-shadow: 2px 2px 7px 0 rgba(0,0,0,0.5);
+
+  & .body {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  & .footer {
+    border-top-color: lightgray;
+    border-top-width: 1px;
+    border-top-style: solid;
+
+    padding: 6px 20px;
+  }
+}
