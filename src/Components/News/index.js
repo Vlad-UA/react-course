@@ -2,10 +2,12 @@ import React from 'react';
 import { Article } from '../Article';
 import styles from './styles.module.scss';
 import { useNews } from './useNews';
+import { useLogout } from '../../authentification/useLogout';
 import { Loader } from '../../Assets/Loader';
 
 export const News = () => {
   const { posts, isLoading } = useNews();
+  const { logout } = useLogout();
 
   if (isLoading) {
     return <Loader />;
@@ -28,8 +30,11 @@ export const News = () => {
   ));
 
   return (
-    <ul className={styles.articles}>
-      {articles}
-    </ul>
+    <>
+      <button onClick={logout} type="button">Logout</button>
+      <ul className={styles.articles}>
+        {articles}
+      </ul>
+    </>
   );
 };
