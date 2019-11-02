@@ -5,7 +5,7 @@ import { book } from '../../navigation/book';
 
 export const useNews = () => {
   const [posts, setPosts] = useState([]);
-  const [isLoading, setLoadingState] = useState(true);
+  const [isLoading, setLoadingState] = useState(false);
   const { id } = useParams();
   const history = useHistory();
 
@@ -22,6 +22,7 @@ export const useNews = () => {
 
   useEffect(
     () => {
+      setLoadingState(true);
       api.getPosts()
         .then(onPostsLoaded)
         .catch(() => setLoadingState(false));
