@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
+import { useHistory } from 'react-router-dom';
 import { MyTextInput } from './inputs/myTextInput';
 import { MyCheckbox } from './inputs/myCheckbox';
 import { MySelect } from './inputs/mySelect';
-import { useLocalStorage } from './useLocalStorage';
+import { useLocalStorage } from '../../helpers/useLocalStorage';
 import { FORM_DATA } from '../../constants/localStorage';
+import { book } from '../../navigation/book';
 
 export const StudentRegistration = () => {
   const [isFormCompleted, setFormCompleted] = useState(false);
   const { saveData, loadData } = useLocalStorage();
+  const history = useHistory();
+
   const initialDataFromLocalStorage = loadData(FORM_DATA);
 
   const submitForm = (values) => {
-    console.log('values', values);
     setFormCompleted(true);
     saveData(FORM_DATA, values);
+
+    history.push(book.student);
   };
 
   const getInitialValues = () => ({
