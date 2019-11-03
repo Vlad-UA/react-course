@@ -16,6 +16,8 @@ export const StudentRegistration = () => {
   const initialDataFromLocalStorage = loadData(FORM_DATA);
 
   const submitForm = (values) => {
+    console.log('values', values);
+
     setFormCompleted(true);
     saveData(FORM_DATA, values);
 
@@ -27,16 +29,41 @@ export const StudentRegistration = () => {
     surname: '',
     age: 0,
     email: '',
-    sex: false,
+    sex: '',
     speciality: '',
     ...initialDataFromLocalStorage,
   });
+
+  const validateFieldEmail = (email) => {
+    let error;
+
+    if (!email) {
+      error = 'Required';
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
+    ) {
+      error = 'Invalid email address';
+    }
+
+    return error;
+  };
+
+  const validateSex = (values) => {
+    const errors = {};
+
+    if (!values.sex) {
+      errors.sex = 'Required';
+    }
+
+    return errors;
+  };
 
   return (
     <>
       <Formik
         initialValues={getInitialValues()}
         onSubmit={submitForm}
+        validate={validateSex}
       >
         {({
           handleSubmit,
@@ -47,28 +74,34 @@ export const StudentRegistration = () => {
               label="First Name"
               type="text"
               name="firstName"
+              validate={(value) => (!value ? 'Required' : null)}
             />
             <MyTextInput
               label="Surname"
               type="text"
               name="surname"
+              validate={(value) => (!value ? 'Required' : null)}
             />
             <MyTextInput
               label="Age"
               type="number"
               name="age"
+              validate={(age) => ((age <= 6 || age >= 60) ? 'Must be more 6 and less 60' : null)}
             />
             <MyTextInput
               label="Email"
               type="email"
               name="email"
+              validate={validateFieldEmail}
             />
             <MyCheckbox
               label="Sex"
-              type="checkbox"
               name="sex"
-            />
-            <MySelect label="Speciality" name="speciality">
+            >
+              <option value="male" label="Male" />
+              <option value="female" label="Female" />
+            </MyCheckbox>
+            <MySelect label="Speciality" name="speciality" validate={(value) => (!value ? 'Required' : null)}>
               <option value="">Select a job</option>
               <option value="designer">Designer</option>
               <option value="developer">Developer</option>

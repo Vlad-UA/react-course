@@ -1,13 +1,19 @@
 import React from 'react';
-import { Field } from 'formik';
+import { Field, useField } from 'formik';
+import styles from './inputs.module.scss';
 
 export const MySelect = ({
-  label, name, id, children, ...props
-}) => (
-  <div>
-    <label htmlFor={id || name}>{label}</label>
-    <Field {...props} as="select" name={name}>
-      { children }
-    </Field>
-  </div>
-);
+  label, children, ...props
+}) => {
+  const [, { error, touched }] = useField(props);
+
+  return (
+    <div className={touched && error ? styles.error : ''}>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <Field {...props} as="select">
+        { children }
+      </Field>
+      { touched && error && <span>{error}</span>}
+    </div>
+  );
+};
