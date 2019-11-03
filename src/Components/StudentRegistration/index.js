@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
 import { MyTextInput } from './inputs/myTextInput';
-import { MyCheckbox } from './inputs/myCheckbox';
+import { MyRadioButton } from './inputs/myRadioButton';
 import { MySelect } from './inputs/mySelect';
 import { useLocalStorage } from '../../helpers/useLocalStorage';
 import { FORM_DATA } from '../../constants/localStorage';
@@ -34,36 +35,36 @@ export const StudentRegistration = () => {
     ...initialDataFromLocalStorage,
   });
 
-  const validateFieldEmail = (email) => {
-    let error;
-
-    if (!email) {
-      error = 'Required';
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
-    ) {
-      error = 'Invalid email address';
-    }
-
-    return error;
-  };
-
-  const validateSex = (values) => {
-    const errors = {};
-
-    if (!values.sex) {
-      errors.sex = 'Required';
-    }
-
-    return errors;
-  };
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string()
+      .required('Required'),
+    surname: Yup.string()
+      .required('Required'),
+    email: Yup.string()
+      .email('Invalid email')
+      .required('Required'),
+    age: Yup.number()
+      .integer('Must be integer')
+      .moreThan(6, 'Must be more then 6')
+      .lessThan(60, 'Must be less then 60')
+      .required('Required'),
+    sex: Yup.string()
+      .required('Required'),
+    speciality: Yup.string()
+      .oneOf([
+        'designer',
+        'developer',
+        'writer',
+      ], 'Invalid Job')
+      .required('Required'),
+  });
 
   return (
     <>
       <Formik
         initialValues={getInitialValues()}
         onSubmit={submitForm}
-        validate={validateSex}
+        validationSchema={validationSchema}
       >
         {({
           handleSubmit,
@@ -74,34 +75,30 @@ export const StudentRegistration = () => {
               label="First Name"
               type="text"
               name="firstName"
-              validate={(value) => (!value ? 'Required' : null)}
             />
             <MyTextInput
               label="Surname"
               type="text"
               name="surname"
-              validate={(value) => (!value ? 'Required' : null)}
             />
             <MyTextInput
               label="Age"
               type="number"
               name="age"
-              validate={(age) => ((age <= 6 || age >= 60) ? 'Must be more 6 and less 60' : null)}
             />
             <MyTextInput
               label="Email"
               type="email"
               name="email"
-              validate={validateFieldEmail}
             />
-            <MyCheckbox
+            <MyRadioButton
               label="Sex"
               name="sex"
             >
               <option value="male" label="Male" />
               <option value="female" label="Female" />
-            </MyCheckbox>
-            <MySelect label="Speciality" name="speciality" validate={(value) => (!value ? 'Required' : null)}>
+            </MyRadioButton>
+            <MySelect label="Speciality" name="speciality">
               <option value="">Select a job</option>
               <option value="designer">Designer</option>
               <option value="developer">Developer</option>
