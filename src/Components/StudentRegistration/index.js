@@ -3,25 +3,34 @@ import { Formik } from 'formik';
 import { MyTextInput } from './inputs/myTextInput';
 import { MyCheckbox } from './inputs/myCheckbox';
 import { MySelect } from './inputs/mySelect';
+import { useLocalStorage } from './useLocalStorage';
+import { FORM_DATA } from '../../constants/localStorage';
 
 export const StudentRegistration = () => {
   const [isFormCompleted, setFormCompleted] = useState(false);
+  const { saveData, loadData } = useLocalStorage();
+  const initialDataFromLocalStorage = loadData(FORM_DATA);
+
   const submitForm = (values) => {
     console.log('values', values);
     setFormCompleted(true);
+    saveData(FORM_DATA, values);
   };
+
+  const getInitialValues = () => ({
+    firstName: '',
+    surname: '',
+    age: 0,
+    email: '',
+    sex: false,
+    speciality: '',
+    ...initialDataFromLocalStorage,
+  });
 
   return (
     <>
       <Formik
-        initialValues={{
-          firstName: '',
-          surname: '',
-          age: 0,
-          email: '',
-          sex: false,
-          speciality: '',
-        }}
+        initialValues={getInitialValues()}
         onSubmit={submitForm}
       >
         {({
@@ -61,7 +70,7 @@ export const StudentRegistration = () => {
               <option value="writer">Writer</option>
             </MySelect>
             <button type="submit" disabled={isSubmitting}>
-            Submit
+              {initialDataFromLocalStorage ? 'Update data' : 'Submit'}
             </button>
           </form>
         )}
