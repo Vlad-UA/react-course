@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, useField } from 'formik';
 import styles from './inputs.module.scss';
 
-export const MyCheckbox = ({
+export const MyRadioButton = ({
   label, children, ...props
 }) => {
   const [, { error, touched }] = useField(props);
@@ -18,6 +18,7 @@ export const MyCheckbox = ({
           </span>
         ))}
       </span>
+      { touched && error && <span>{error}</span>}
     </div>
   );
 };
