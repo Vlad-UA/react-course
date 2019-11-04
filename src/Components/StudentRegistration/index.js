@@ -2,40 +2,28 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useSelector, useDispatch } from 'react-redux';
 import { MyTextInput } from './inputs/myTextInput';
 import { MyRadioButton } from './inputs/myRadioButton';
 import { MySelect } from './inputs/mySelect';
-import { useLocalStorage } from '../../helpers/useLocalStorage';
-import { FORM_DATA } from '../../constants/localStorage';
 import { book } from '../../navigation/book';
+import { studentActions } from '../../bus/student/actions';
 
 export const StudentRegistration = () => {
   const [isFormCompleted, setFormCompleted] = useState(false);
-  const { saveData, loadData } = useLocalStorage();
   const history = useHistory();
-
-  const initialDataFromLocalStorage = loadData(FORM_DATA);
+  const dispatch = useDispatch();
+  const studentData = useSelector((state) => state.student);
 
   const submitForm = (values) => {
     console.log('values', values);
 
+    dispatch(studentActions.createNewUser(values));
+
     setFormCompleted(true);
-    saveData(FORM_DATA, values);
 
     history.push(book.student);
   };
-
-  const getInitialValues = () => ({
-    firstName: '',
-    surname: '',
-    age: 0,
-    email: '',
-    sex: '',
-    speciality: '',
-    password: '',
-    passwordConfirm: '',
-    ...initialDataFromLocalStorage,
-  });
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -72,7 +60,7 @@ export const StudentRegistration = () => {
   return (
     <>
       <Formik
-        initialValues={getInitialValues()}
+        initialValues={{ ...studentData }}
         onSubmit={submitForm}
         validationSchema={validationSchema}
       >
@@ -124,9 +112,7 @@ export const StudentRegistration = () => {
               type="password"
               name="passwordConfirm"
             />
-            <button type="submit" disabled={isSubmitting}>
-              {initialDataFromLocalStorage ? 'Update data' : 'Submit'}
-            </button>
+            <button type="submit" disabled={isSubmitting}>Submit</button>
           </form>
         )}
       </Formik>

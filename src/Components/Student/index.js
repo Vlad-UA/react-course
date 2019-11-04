@@ -1,14 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FORM_DATA } from '../../constants/localStorage';
-import { useLocalStorage } from '../../helpers/useLocalStorage';
+import { useSelector } from 'react-redux';
 import { book } from '../../navigation/book';
 
 export const Student = () => {
-  const { loadData } = useLocalStorage();
-  const initialDataFromLocalStorage = loadData(FORM_DATA);
+  const {
+    isCreated,
+    firstName,
+    surname,
+    age,
+    email,
+    sex,
+    speciality,
+  } = useSelector((state) => state.student);
 
-  if (!initialDataFromLocalStorage) {
+  if (!isCreated) {
     return (
       <>
         Student is not created, you can create it on this
@@ -20,12 +26,12 @@ export const Student = () => {
   return (
     <>
       <div>Student:</div>
-      <div>{`age: ${initialDataFromLocalStorage.age}`}</div>
-      <div>{`email: ${initialDataFromLocalStorage.email}`}</div>
-      <div>{`firstName: ${initialDataFromLocalStorage.firstName}`}</div>
-      <div>{`sex: ${initialDataFromLocalStorage.sex}`}</div>
-      <div>{`speciality: ${initialDataFromLocalStorage.speciality}`}</div>
-      <div>{`surname: ${initialDataFromLocalStorage.surname}`}</div>
+      <div>{`age: ${age}`}</div>
+      <div>{`email: ${email}`}</div>
+      <div>{`firstName: ${firstName}`}</div>
+      <div>{`sex: ${sex}`}</div>
+      <div>{`speciality: ${speciality}`}</div>
+      <div>{`surname: ${surname}`}</div>
     </>
   );
 };
