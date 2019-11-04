@@ -32,6 +32,8 @@ export const StudentRegistration = () => {
     email: '',
     sex: '',
     speciality: '',
+    password: '',
+    passwordConfirm: '',
     ...initialDataFromLocalStorage,
   });
 
@@ -56,6 +58,14 @@ export const StudentRegistration = () => {
         'developer',
         'writer',
       ], 'Invalid Job')
+      .required('Required'),
+    password: Yup.string()
+      .matches(/(?=.[A-Za-z]+)/, 'Must have symbols')
+      .matches(/(?=.[0-9]{3,})/, 'Must have min 3 numbers')
+      .min(10, 'Minimum 10 symbols')
+      .required('Required'),
+    passwordConfirm: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
       .required('Required'),
   });
 
@@ -104,6 +114,16 @@ export const StudentRegistration = () => {
               <option value="developer">Developer</option>
               <option value="writer">Writer</option>
             </MySelect>
+            <MyTextInput
+              label="Password"
+              type="password"
+              name="password"
+            />
+            <MyTextInput
+              label="Confirm password"
+              type="password"
+              name="passwordConfirm"
+            />
             <button type="submit" disabled={isSubmitting}>
               {initialDataFromLocalStorage ? 'Update data' : 'Submit'}
             </button>
